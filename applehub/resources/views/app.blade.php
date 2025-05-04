@@ -11,6 +11,16 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+
+        <script>
+            window.Laravel = {
+                csrfToken: '{{ csrf_token() }}'
+            }
+            
+            window.csrfToken = "{{ csrf_token() }}";
+        </script>
+=
+ 
         @routes
         @viteReactRefresh
         @vite(['resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx"])
