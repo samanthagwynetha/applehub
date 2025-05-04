@@ -53,6 +53,14 @@ export default function Cart({ cart }: Props) {
             <div className="text-xl font-bold text-right">
               Total: ${total.toFixed(2)}
             </div>
+
+            <Link
+                href="/checkout"
+                className="inline-block mt-4 bg-black text-white px-6 py-2 rounded hover:bg-gray-800"
+                >
+                Proceed to Checkout
+            </Link>
+
           </div>
         )}
       </div>

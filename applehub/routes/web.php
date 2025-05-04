@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -35,4 +36,7 @@ Route::post('/cart/add/{product}', [CartController::class, 'add']);
 Route::get('/cart', [CartController::class, 'index']);
 Route::post('/cart/remove/{productId}', [CartController::class, 'remove']);
 
+//{Orders}
+Route::get('/checkout', [OrderController::class, 'create']);
+Route::post('/checkout', [OrderController::class, 'store']);
 require __DIR__.'/auth.php';
