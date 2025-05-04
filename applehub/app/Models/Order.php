@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    public function items()
+    {
+        return $this->hasMany(\App\Models\OrderItem::class);
+    }
+
     use HasFactory;
 
     // Allow mass assignment for these fields

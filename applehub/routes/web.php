@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -40,3 +41,6 @@ Route::post('/cart/remove/{productId}', [CartController::class, 'remove']);
 Route::get('/checkout', [OrderController::class, 'create']);
 Route::post('/checkout', [OrderController::class, 'store']);
 require __DIR__.'/auth.php';
+
+//{Admin}
+Route::get('/admin/orders', [AdminOrderController::class, 'index']);
