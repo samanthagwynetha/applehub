@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Middleware\AdminAuth;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -42,5 +44,11 @@ Route::get('/checkout', [OrderController::class, 'create']);
 Route::post('/checkout', [OrderController::class, 'store']);
 require __DIR__.'/auth.php';
 
-//{Admin}
-Route::get('/admin/orders', [AdminOrderController::class, 'index']);
+//{AdminAuth}
+Route::get('/admin/login', [AdminLoginController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login']);
+Route::post('/admin/logout', [AdminLoginController::class, 'logout']);
+
+Route::middleware(['admin'])->group(function () {
+    Route::get('/admin/orders', [AdminOrderController::class, 'index']);
+});
