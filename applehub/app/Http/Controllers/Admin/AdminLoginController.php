@@ -25,9 +25,12 @@ class AdminLoginController extends Controller
         return back()->withErrors(['email' => 'Invalid credentials or not an admin']);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/admin/login');
     }
 }
