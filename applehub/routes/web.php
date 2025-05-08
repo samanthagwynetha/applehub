@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Models\Product;
+use App\Models\Category;
 
 // Public homepage
 Route::get('/', [ProductController::class, 'index']);
@@ -114,4 +115,52 @@ Route::middleware(['auth', 'admin'])->group(function () {
         $product->delete();
         return redirect('/admin/products')->with('success', 'Product deleted!');
     })->name('admin.products.destroy');
+
+    // Admin CATEGORY
+    Route::get('/admin/categories', function () {
+        return Inertia::render('Admin/Categories', [
+            'categories' => Category::all(),
+        ]);
+    })->name('admin.categories.index');
+    
+    Route::get('/admin/categories/create', function () {
+        return Inertia::render('Admin/CreateCategory');
+    })->name('admin.categories.create');
+    
+    Route::post('/admin/categories', function (Request $request) {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories',
+        ]);
+    
+        Category::create($validated);
+    
+        return redirect()->route('admin.categories.index')->with('success', 'Category created!');
+    })->name('admin.categories.store');
+
+    // Show Edit Form
+    Route::get('/admin/categories/{id}/edit', function ($id) {
+        $category = \App\Models\Category::findOrFail($id);
+        return Inertia::render('Admin/EditCategory', [
+            'category' => $category,
+        ]);
+    })->name('admin.categories.edit');
+
+    // Update Category
+    Route::put('/admin/categories/{id}', function (\Illuminate\Http\Request $request, $id) {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+       Category::findOrFail($id)->update($validated);
+
+        return redirect('/admin/categories')->with('success', 'Category updated!');
+    })->name('admin.categories.update');
+
+    // Delete Category
+    Route::delete('/admin/categories/{id}', function ($id) {
+        Category::findOrFail($id)->delete();
+
+        return redirect('/admin/categories')->with('success', 'Category deleted!');
+    })->name('admin.categories.destroy');
+
 });
